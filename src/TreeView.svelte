@@ -16,12 +16,27 @@
 	const toggleExpansion = () => {
 		expanded = _expansionState[label] = !expanded
 	}
+    const deleteNode = (tr) => {
+        console.log("delete node, tr:", tr);   
+        tree = false;
+    }
+    const addChildNode = (tr) => {
+        console.log("add child node to tr:", tr);
+    }
+
+    const addSiblingNode = (tr) => {
+        console.log("add sibling node to tr:", tr);
+    }
     // https://svelte.dev/docs#3_$_marks_a_statement_as_reactive
 	$: arrowDown = expanded
 </script>
 
+{#if tree}
 <ul><!-- transition:slide -->
 	<li>
+        <span class="delete" on:click={deleteNode(tree)} >(d)</span>
+        <span class="addChild" on:click={addChildNode(tree)} >(c)</span> <!--add child-->
+        <span class="addSibling" on:click={addSiblingNode(tree)} >(s)</span> <!--add sibling -->
 		{#if children}
 			<span on:click={toggleExpansion}>
                 <!-- https://svelte.dev/tutorial/classes , https://svelte.dev/tutorial/class-shorthand-->
@@ -41,7 +56,7 @@
 		{/if}
 	</li>
 </ul>
-
+{/if}
 <style>
 	ul {
 		margin: 0;
