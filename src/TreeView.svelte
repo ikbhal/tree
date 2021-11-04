@@ -8,6 +8,7 @@
 </script>
 
 <script>
+    import { v4 as uuid} from 'uuid';
 //	import { slide } from 'svelte/transition'
 	export let tree
 	const {label, children} = tree
@@ -22,6 +23,9 @@
     }
     const addChildNode = (tr) => {
         console.log("add child node to tr:", tr);
+        let childLabel = uuid();
+        // let childChildren = [];
+        children.push({label: childLabel}); 
     }
 
     const addSiblingNode = (tr) => {
