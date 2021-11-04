@@ -11,11 +11,14 @@
     import { v4 as uuid} from 'uuid';
 //	import { slide } from 'svelte/transition'
 	export let tree
-	const {label, children} = tree
+    tree.id = tree.id || uuid();
+    tree.children = tree.children || [];
+	const {id, label, children} = tree
 
-	let expanded = _expansionState[label] || false
+	// let expanded = _expansionState[label] || false
+	let expanded = _expansionState[id] || false
 	const toggleExpansion = () => {
-		expanded = _expansionState[label] = !expanded
+		expanded = _expansionState[id] = !expanded
 	}
     const deleteNode = (tr) => {
         console.log("delete node, tr:", tr);   
@@ -23,9 +26,9 @@
     }
     const addChildNode = (tr) => {
         console.log("add child node to tr:", tr);
-        let childLabel = uuid();
+        let childId = uuid();
         // let childChildren = [];
-        children.push({label: childLabel}); 
+        children.push({id: childId, label: ''}); // not sure not working
     }
 
     const addSiblingNode = (tr) => {
@@ -41,7 +44,7 @@
         <span class="delete" on:click={deleteNode(tree)} >(d)</span>
         <span class="addChild" on:click={addChildNode(tree)} >(c)</span> <!--add child-->
         <span class="addSibling" on:click={addSiblingNode(tree)} >(s)</span> <!--add sibling -->
-		{#if children}
+		{#if children && children.length >0}
 			<span on:click={toggleExpansion}>
                 <!-- https://svelte.dev/tutorial/classes , https://svelte.dev/tutorial/class-shorthand-->
 				<span class="arrow" class:arrowDown>&#x25b6</span>
